@@ -1,14 +1,14 @@
 <script setup lang="ts">
-const WHATSAPP_PRIMARY = '27714630640'
-const WHATSAPP_SECONDARY_DISPLAY = '060 545 7885'
+const WHATSAPP_PRIMARY = '27605457885'
+const WHATSAPP_DISPLAY = '+27 60 545 7885'
 const EMAIL = 'victormolepl@gmail.com'
 
 const mobileOpen = ref(false)
 
 const form = reactive({
   name: '',
-  service: 'Airport Transfer',
-  vehicle: 'VClass',
+  service: 'Airport Transfer (OR Tambo / Lanseria)',
+  vehicle: 'V-Class',
   passengers: '1',
   pickup: '',
   dropoff: '',
@@ -17,94 +17,239 @@ const form = reactive({
   notes: '',
 })
 
+/** Min selectable pickup date (today, local) */
+const minPickupDate = computed(() => {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+})
+
+function openPicker(e: Event) {
+  const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void }
+  try {
+    el.showPicker?.()
+  } catch {
+    /* browser may block if not a user gesture; native click still works */
+  }
+}
+
 const serviceTypes = [
-  'Airport Transfer',
-  'Outstation Trip',
-  'Family Tour',
+  'Airport Transfer (OR Tambo / Lanseria)',
+  'Meet & Greet',
+  'Point-to-Point Transfer',
+  'Hourly / Day Chauffeur',
   'Corporate Travel',
-  'Event / Wedding',
-  'Uber / Bolt Ride',
+  'Outstation / Long Distance',
+  'Event / Wedding / Conference',
+  'Family / Group Tour',
   'Other',
 ]
 
 const vehicles = [
-  'VClass',
-  'Staria',
-  'Ertiga',
-  'Rumion',
-  'Executive Sedan',
-  'Premium SUV',
+  'C-Class',
+  'V-Class',
+  'E-Class',
+  'BMW X3',
+  'Hyundai Staria',
 ]
 
 const fleet = [
   {
     n: '01',
-    name: 'VClass',
-    tagline: 'Travel together, in ultimate comfort.',
-    seats: 6,
+    name: 'C-Class',
+    tagline: 'Executive comfort, every mile.',
+    seats: 4,
+    luggage: '2–3 bags',
+    bestFor: 'Solo exec, short city runs',
+    tier: 'Executive sedan',
   },
   {
     n: '02',
-    name: 'Staria',
-    tagline: 'Space that moves you.',
-    seats: 7,
+    name: 'V-Class',
+    tagline: 'Travel together, in ultimate comfort.',
+    seats: 6,
+    luggage: 'Flexible / group luggage',
+    bestFor: 'VIP groups, airport with bags',
+    tier: 'Luxury MPV',
   },
   {
     n: '03',
-    name: 'Ertiga',
-    tagline: 'Smart. Spacious. Always ready.',
-    seats: 6,
+    name: 'E-Class',
+    tagline: 'Refined luxury for business and beyond.',
+    seats: 4,
+    luggage: '2–3 bags',
+    bestFor: 'Corporate, meetings, VIP',
+    tier: 'Executive sedan',
   },
   {
     n: '04',
-    name: 'Rumion',
-    tagline: 'More room. More memories.',
-    seats: 6,
+    name: 'BMW X3',
+    tagline: 'Bold presence, premium ride.',
+    seats: 5,
+    luggage: 'Generous boot space',
+    bestFor: 'SUV comfort, leisure & business',
+    tier: 'Premium SUV',
   },
   {
     n: '05',
-    name: 'Executive Sedan',
-    tagline: 'Sleek rides for Uber & Bolt.',
-    seats: 4,
+    name: 'Hyundai Staria',
+    tagline: 'Space that moves you.',
+    seats: 7,
+    luggage: 'High capacity',
+    bestFor: 'Families, teams, events',
+    tier: 'Luxury van',
+  },
+]
+
+const inclusions = [
+  {
+    title: 'Professional chauffeur',
+    desc: 'Punctual, discreet, and presentation-ready for every booking.',
   },
   {
-    n: '06',
-    name: 'Premium SUV',
-    tagline: 'Bold journeys, refined comfort.',
-    seats: 5,
+    title: 'Flight-aware airport pickups',
+    desc: 'OR Tambo & Lanseria timing with meet & greet on request.',
   },
+  {
+    title: 'Clear WhatsApp quotes',
+    desc: 'No guesswork — confirm price, vehicle, and driver details before you ride.',
+  },
+  {
+    title: 'Comfort-first vehicles',
+    desc: 'Premium sedans, SUV, V-Class and Staria maintained for style and safety.',
+  },
+]
+
+const quoteTiers = [
+  {
+    name: 'C-Class',
+    examples: 'Executive sedan',
+    best: '1–3 passengers · airport & meetings',
+  },
+  {
+    name: 'E-Class',
+    examples: 'Executive sedan',
+    best: '1–3 passengers · corporate & VIP',
+  },
+  {
+    name: 'BMW X3',
+    examples: 'Premium SUV',
+    best: '1–4 passengers · comfort with luggage',
+  },
+  {
+    name: 'V-Class',
+    examples: 'Luxury MPV',
+    best: 'Up to 6 · VIP groups & airport with bags',
+  },
+  {
+    name: 'Hyundai Staria',
+    examples: 'Luxury van',
+    best: 'Up to 7 · families, teams & events',
+  },
+]
+
+const addOns = [
+  'Child seat',
+  'Meet & greet',
+  'Extra waiting time',
+  'Multi-stop itinerary',
+  'Return trip',
+  'Hourly / full-day hire',
 ]
 
 const services = [
   {
     title: 'Airport Transfers',
-    desc: 'Punctual pickups and drop-offs to all major airports.',
+    desc: 'OR Tambo & Lanseria — flight-aware pickups, meet & greet, and luggage assistance.',
     icon: 'plane',
   },
   {
-    title: 'Outstation Trips',
-    desc: 'Long-distance travel with experienced drivers.',
-    icon: 'pin',
-  },
-  {
-    title: 'Family Tours',
-    desc: 'Spacious vehicles for unforgettable family adventures.',
-    icon: 'family',
+    title: 'Hourly & Day Chauffeur',
+    desc: 'Keep a dedicated driver for meetings, roadshows, shopping, or a full day on the road.',
+    icon: 'car',
   },
   {
     title: 'Corporate Travel',
-    desc: 'Reliable transport for executives and teams.',
+    desc: 'Executive transfers, staff shuttles, client collections, and multi-stop itineraries.',
     icon: 'briefcase',
   },
   {
-    title: 'Events & Weddings',
-    desc: 'Arrive in style on your most important days.',
+    title: 'Outstation & Long Distance',
+    desc: 'Comfortable intercity travel — Pretoria, Sun City, Kruger gateways, and beyond.',
+    icon: 'pin',
+  },
+  {
+    title: 'Events & Conferences',
+    desc: 'Weddings, matric dances, concerts, and conference shuttles with punctual logistics.',
     icon: 'heart',
   },
   {
-    title: 'Uber & Bolt Rides',
-    desc: 'On-demand rides with our trusted drivers.',
-    icon: 'car',
+    title: 'Family & Group Tours',
+    desc: 'Spacious vehicles for families, visitors, and small groups exploring Gauteng.',
+    icon: 'family',
+  },
+]
+
+const howItWorks = [
+  {
+    n: '01',
+    title: 'Book on WhatsApp',
+    desc: 'Send your pickup, drop-off, date, time, and vehicle preference from our form.',
+  },
+  {
+    n: '02',
+    title: 'We confirm details',
+    desc: 'We confirm availability, price, and chauffeur details before your trip.',
+  },
+  {
+    n: '03',
+    title: 'Meet your chauffeur',
+    desc: 'Your driver arrives on time — meet & greet at the airport when requested.',
+  },
+  {
+    n: '04',
+    title: 'Travel in comfort',
+    desc: 'Arrive relaxed. Follow up anytime on WhatsApp for the next journey.',
+  },
+]
+
+const serviceAreas = [
+  'Johannesburg',
+  'Sandton',
+  'Pretoria',
+  'Midrand',
+  'OR Tambo',
+  'Lanseria',
+  'Centurion',
+  'Outstation routes',
+]
+
+const faqs = [
+  {
+    q: 'Do you only do airport transfers?',
+    a: 'No. We also offer point-to-point transfers, hourly and full-day chauffeur hire, corporate travel, events, and long-distance / outstation trips.',
+  },
+  {
+    q: 'Which airports do you cover?',
+    a: 'We regularly serve OR Tambo and Lanseria, with meet & greet and flight-aware timing on request.',
+  },
+  {
+    q: 'Can you move groups or conference guests?',
+    a: 'Yes. Tell us passenger numbers and luggage — we’ll recommend V-Class, Staria, or a suitable plan for your schedule.',
+  },
+  {
+    q: 'How do I get a quote?',
+    a: 'Use the booking form or WhatsApp us with pickup, drop-off, date, time, and passengers. We’ll reply with a clear quote.',
+  },
+  {
+    q: 'Do you offer child seats or extras?',
+    a: 'Yes — note child seats, meet & greet, extra stops, or waiting time in your booking notes and we’ll confirm availability.',
+  },
+  {
+    q: 'Can companies get invoices / accounts?',
+    a: 'Yes. For corporate and repeat travel, WhatsApp or email us and we’ll set up clear confirmations and invoicing.',
   },
 ]
 
@@ -124,22 +269,58 @@ function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
+function formatPickupDate(iso: string) {
+  if (!iso) return 'Not set'
+  const d = new Date(`${iso}T12:00:00`)
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('en-ZA', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+function formatPickupTime(t: string) {
+  if (!t) return 'Not set'
+  const [h, m] = t.split(':').map(Number)
+  if (Number.isNaN(h) || Number.isNaN(m)) return t
+  const d = new Date()
+  d.setHours(h, m, 0, 0)
+  return d.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })
+}
+
+/**
+ * WhatsApp prefill is plain text only (no logo / brand colors).
+ * Avoid emojis / fancy unicode — some devices show them as � in wa.me links.
+ */
 function buildBookingMessage() {
   const lines = [
-    '*VSM Tours — booking request*',
+    '*VSM TOURS*',
+    '_Premium Fleet - Premium Experience_',
+    '------------------------------',
+    '*NEW BOOKING REQUEST*',
+    '------------------------------',
     '',
-    `Name: ${form.name || '(not provided)'}`,
-    `Service: ${form.service}`,
-    `Vehicle: ${form.vehicle}`,
-    `Passengers: ${form.passengers}`,
-    `Pickup: ${form.pickup || '(not provided)'}`,
-    `Drop-off: ${form.dropoff || '(not provided)'}`,
-    `Date: ${form.date || '(not provided)'}`,
-    `Time: ${form.time || '(not provided)'}`,
+    `*Name:* ${form.name.trim() || 'Not provided'}`,
+    `*Service:* ${form.service}`,
+    `*Vehicle:* ${form.vehicle}`,
+    `*Passengers:* ${form.passengers}`,
+    '',
+    `*Pickup:* ${form.pickup.trim() || 'Not provided'}`,
+    `*Drop-off:* ${form.dropoff.trim() || 'Not provided'}`,
+    `*Date:* ${formatPickupDate(form.date)}`,
+    `*Time:* ${formatPickupTime(form.time)}`,
   ]
   if (form.notes.trim()) {
-    lines.push('', `Notes: ${form.notes.trim()}`)
+    lines.push('', `*Notes:* ${form.notes.trim()}`)
   }
+  lines.push(
+    '',
+    '------------------------------',
+    '_Your journey - Our priority_',
+    'Please confirm availability. Thank you!',
+  )
   return lines.join('\n')
 }
 
@@ -154,7 +335,16 @@ function submitBooking(e: Event) {
 
 function openWhatsAppChat() {
   window.open(
-    waUrl('Hi VSM Tours — I’d like to chat about a ride.'),
+    waUrl(
+      [
+        '*VSM TOURS*',
+        '_Premium Fleet - Premium Experience_',
+        '------------------------------',
+        "Hi - I'd like to chat about a ride.",
+        '',
+        '_Your journey - Our priority_',
+      ].join('\n'),
+    ),
     '_blank',
     'noopener,noreferrer',
   )
@@ -164,6 +354,24 @@ function bookVehicle(vehicleName: string) {
   form.vehicle = vehicleName
   scrollTo('book')
 }
+
+function requestQuote(tierName?: string) {
+  const lines = [
+    '*VSM TOURS*',
+    '_Premium Fleet - Premium Experience_',
+    '------------------------------',
+    '*QUOTE REQUEST*',
+    '------------------------------',
+    '',
+    tierName ? `*Category:* ${tierName}` : '*Category:* Please advise',
+    '',
+    'Please quote for my trip. I will share pickup, drop-off, date and passengers.',
+    '',
+    '_Your journey - Our priority_',
+  ]
+  window.open(waUrl(lines.join('\n')), '_blank', 'noopener,noreferrer')
+}
+
 </script>
 
 <template>
@@ -199,34 +407,27 @@ function bookVehicle(vehicleName: string) {
         </a>
 
         <nav
-          class="hidden items-center gap-8 text-sm font-medium text-cream/90 md:flex"
+          class="hidden items-center gap-5 text-sm font-medium text-cream/90 lg:flex xl:gap-7"
         >
-          <button
-            type="button"
-            class="transition hover:text-gold"
-            @click="scrollTo('fleet')"
-          >
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('why')">
+            Why VSM
+          </button>
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('fleet')">
             Fleet
           </button>
-          <button
-            type="button"
-            class="transition hover:text-gold"
-            @click="scrollTo('services')"
-          >
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('services')">
             Services
           </button>
-          <button
-            type="button"
-            class="transition hover:text-gold"
-            @click="scrollTo('book')"
-          >
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('rates')">
+            Quotes
+          </button>
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('how')">
+            How it works
+          </button>
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('book')">
             Book
           </button>
-          <button
-            type="button"
-            class="transition hover:text-gold"
-            @click="scrollTo('contact')"
-          >
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('contact')">
             Contact
           </button>
         </nav>
@@ -282,28 +483,25 @@ function bookVehicle(vehicleName: string) {
         class="border-t border-navy-700 bg-navy-850 px-4 py-4 md:hidden"
       >
         <div class="flex flex-col gap-3 text-sm font-medium">
-          <button
-            class="py-1 text-left text-cream transition hover:text-gold"
-            @click="scrollTo('fleet')"
-          >
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('why')">
+            Why VSM
+          </button>
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('fleet')">
             Fleet
           </button>
-          <button
-            class="py-1 text-left text-cream transition hover:text-gold"
-            @click="scrollTo('services')"
-          >
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('services')">
             Services
           </button>
-          <button
-            class="py-1 text-left text-cream transition hover:text-gold"
-            @click="scrollTo('book')"
-          >
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('rates')">
+            Quotes
+          </button>
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('how')">
+            How it works
+          </button>
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('book')">
             Book
           </button>
-          <button
-            class="py-1 text-left text-cream transition hover:text-gold"
-            @click="scrollTo('contact')"
-          >
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('contact')">
             Contact
           </button>
           <button
@@ -319,7 +517,7 @@ function bookVehicle(vehicleName: string) {
     <main id="main">
       <!-- Hero -->
       <section
-        class="relative isolate min-h-[85vh] overflow-hidden bg-navy-950 bg-[url('/hero1.png')] bg-cover bg-[center_48%] bg-no-repeat md:min-h-[90vh] md:bg-[center_56%]"
+        class="relative isolate min-h-[72vh] overflow-hidden bg-navy-950 bg-[url('/hero1.png')] bg-cover bg-[center_48%] bg-no-repeat md:min-h-[78vh] md:bg-[center_56%]"
       >
         <div
           class="pointer-events-none absolute inset-0 bg-gradient-to-r from-navy-950/80 via-navy-950/35 to-navy-950/10"
@@ -330,50 +528,47 @@ function bookVehicle(vehicleName: string) {
           aria-hidden="true"
         />
         <div
-          class="pointer-events-none absolute inset-x-0 bottom-0 h-[min(58vh,30rem)] bg-gradient-to-t from-navy-950 via-navy-950/85 to-transparent md:h-[min(55vh,34rem)]"
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-[min(42vh,22rem)] bg-gradient-to-t from-navy-950 via-navy-950/80 to-transparent"
           aria-hidden="true"
         />
 
         <div
-          class="relative z-10 mx-auto flex max-w-6xl flex-col justify-end gap-8 px-4 pb-28 pt-28 md:min-h-[90vh] md:justify-end md:gap-10 md:pb-44 md:pt-28 lg:pb-52"
+          class="relative z-10 mx-auto flex max-w-6xl flex-col justify-end gap-4 px-4 pb-16 pt-24 md:min-h-[78vh] md:justify-end md:gap-5 md:pb-24 md:pt-28"
         >
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.35em] text-gold md:text-sm"
-          >
+          <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold md:text-xs">
             Comfort · Style · Memories
           </p>
-          <div class="max-w-2xl space-y-2">
+          <div class="max-w-xl space-y-0.5">
             <h1
-              class="font-serif text-4xl font-semibold leading-tight tracking-tight text-cream md:text-5xl lg:text-6xl"
+              class="font-serif text-3xl font-semibold leading-tight tracking-tight text-cream md:text-4xl lg:text-[2.75rem]"
             >
               Premium Fleet.
             </h1>
             <p
-              class="font-serif text-4xl italic text-gold md:text-5xl lg:text-6xl"
+              class="font-serif text-3xl italic leading-tight text-gold md:text-4xl lg:text-[2.75rem]"
             >
               Premium Experience.
             </p>
           </div>
-          <p class="max-w-xl text-sm leading-relaxed text-beige md:text-base">
-            We take you places. Chauffeured travel across the city and beyond —
-            airport transfers, outstation trips, weddings, corporate rides, and
-            on-demand Uber &amp; Bolt service.
+          <p class="max-w-md text-xs leading-relaxed text-cream/90 md:max-w-lg md:text-sm">
+            Chauffeured travel across the city and beyond — airport transfers,
+            outstation trips, weddings, and corporate rides.
           </p>
-          <div class="flex flex-wrap items-center gap-4">
+          <div class="flex flex-wrap items-center gap-3">
             <button
               type="button"
-              class="rounded-lg bg-gold px-6 py-3.5 text-sm font-semibold text-navy-900 shadow-xl shadow-[0_14px_40px_rgba(1,11,58,0.55)] transition hover:bg-gold-light"
+              class="rounded-lg bg-gold px-4 py-2.5 text-xs font-semibold text-navy-900 shadow-lg shadow-[0_10px_28px_rgba(1,11,58,0.45)] transition hover:bg-gold-light md:text-sm"
               @click="scrollTo('book')"
             >
               Book Your Ride Today
             </button>
             <button
               type="button"
-              class="inline-flex items-center gap-2 text-sm font-medium text-gold transition hover:text-gold-light"
+              class="inline-flex items-center gap-1.5 text-xs font-medium text-gold transition hover:text-gold-light md:text-sm"
               @click="openWhatsAppChat"
             >
               <svg
-                class="h-5 w-5 shrink-0 text-cream"
+                class="h-4 w-4 shrink-0 text-cream"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -387,21 +582,21 @@ function bookVehicle(vehicleName: string) {
           </div>
 
           <div
-            class="mt-10 grid max-w-3xl grid-cols-2 gap-6 border-t border-navy-700/80 bg-navy-950/45 px-2 py-10 backdrop-blur-[2px] sm:px-3 md:mt-16 md:grid-cols-4 md:gap-4 md:px-4 md:py-12"
+            class="mt-4 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-3 border-t border-navy-700/70 pt-5 md:mt-5 md:grid-cols-4 md:gap-3"
           >
             <div
               v-for="(t, i) in trustPoints"
               :key="i"
-              class="flex flex-col items-start gap-1.5"
+              class="flex flex-col items-start gap-1"
             >
               <span
-                class="text-[10px] font-semibold uppercase tracking-wider text-gold md:text-[11px]"
+                class="text-[9px] font-semibold uppercase tracking-wider text-gold md:text-[10px]"
                 >{{ t.label }}</span
               >
-              <span class="mt-0.5 text-gold" aria-hidden="true">
+              <span class="text-gold" aria-hidden="true">
                 <svg
                   v-if="t.icon === 'car'"
-                  class="h-5 w-5"
+                  class="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -415,7 +610,7 @@ function bookVehicle(vehicleName: string) {
                 </svg>
                 <svg
                   v-else-if="t.icon === 'shield'"
-                  class="h-5 w-5"
+                  class="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -429,7 +624,7 @@ function bookVehicle(vehicleName: string) {
                 </svg>
                 <svg
                   v-else-if="t.icon === 'user'"
-                  class="h-5 w-5"
+                  class="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -443,7 +638,7 @@ function bookVehicle(vehicleName: string) {
                 </svg>
                 <svg
                   v-else
-                  class="h-5 w-5"
+                  class="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -467,6 +662,31 @@ function bookVehicle(vehicleName: string) {
         </div>
       </section>
 
+      <!-- Why VSM -->
+      <section id="why" class="scroll-mt-24 bg-navy-950 py-16 md:py-24">
+        <div class="mx-auto max-w-6xl px-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+            Why VSM Tours
+          </p>
+          <h2
+            class="mt-4 max-w-3xl font-serif text-3xl font-semibold text-cream md:text-4xl lg:text-5xl"
+          >
+            The details competitors advertise —
+            <span class="italic text-gold">delivered on every ride.</span>
+          </h2>
+          <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <article
+              v-for="item in inclusions"
+              :key="item.title"
+              class="border-t border-gold/35 pt-6"
+            >
+              <h3 class="font-serif text-xl font-semibold text-cream">{{ item.title }}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-beige">{{ item.desc }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!-- Fleet -->
       <section id="fleet" class="scroll-mt-24 bg-navy-900 py-16 md:py-24">
         <div class="mx-auto max-w-6xl px-4">
@@ -480,13 +700,12 @@ function bookVehicle(vehicleName: string) {
               <h2
                 class="font-serif text-3xl font-semibold text-cream md:text-4xl lg:text-5xl"
               >
-                Six vehicles.
+                Five premium vehicles.
                 <span class="block font-serif italic text-gold">Endless journeys.</span>
               </h2>
             </div>
             <p class="max-w-md text-sm leading-relaxed text-beige md:text-right">
-              Each vehicle in our fleet is hand-picked for comfort, safety, and style
-              — driven by experienced chauffeurs.
+              Choose by seats, luggage and journey type — then book straight on WhatsApp.
             </p>
           </div>
 
@@ -496,24 +715,61 @@ function bookVehicle(vehicleName: string) {
               :key="car.n"
               class="group flex flex-col rounded-xl border border-navy-700 bg-navy-900 p-6 transition hover:border-gold/25"
             >
-              <span class="text-sm font-medium text-gold">{{ car.n }}</span>
+              <div class="flex items-start justify-between gap-3">
+                <span class="text-sm font-medium text-gold">{{ car.n }}</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-beige">
+                  {{ car.tier }}
+                </span>
+              </div>
               <h3 class="mt-2 font-serif text-2xl font-semibold text-cream">
                 {{ car.name }}
               </h3>
-              <p class="mt-2 flex-1 text-sm text-beige">{{ car.tagline }}</p>
+              <p class="mt-2 text-sm text-beige">{{ car.tagline }}</p>
+              <p class="mt-3 text-xs text-gold">Best for: {{ car.bestFor }}</p>
               <div
-                class="mt-6 flex items-center justify-between border-t border-navy-700 pt-4"
+                class="mt-6 flex items-center justify-between gap-3 border-t border-navy-700 pt-4"
               >
-                <span class="text-sm text-gold">{{ car.seats }} seats</span>
+                <div class="min-w-0 text-sm text-gold">
+                  <p>{{ car.seats }} seats</p>
+                  <p class="truncate text-xs text-beige">{{ car.luggage }}</p>
+                </div>
                 <button
                   type="button"
-                  class="text-sm font-medium text-gold transition hover:text-gold-light"
+                  class="shrink-0 text-sm font-medium text-gold transition hover:text-gold-light"
                   @click="bookVehicle(car.name)"
                 >
                   Book →
                 </button>
               </div>
             </article>
+          </div>
+
+          <div class="mt-14 overflow-x-auto rounded-2xl border border-navy-700">
+            <table class="min-w-full text-left text-sm">
+              <caption class="sr-only">Fleet comparison</caption>
+              <thead class="bg-navy-850 text-xs uppercase tracking-wider text-gold">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">Vehicle</th>
+                  <th class="px-4 py-3 font-semibold">Tier</th>
+                  <th class="px-4 py-3 font-semibold">Seats</th>
+                  <th class="px-4 py-3 font-semibold">Luggage</th>
+                  <th class="px-4 py-3 font-semibold">Best for</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="car in fleet"
+                  :key="`cmp-${car.n}`"
+                  class="border-t border-navy-700 text-beige"
+                >
+                  <td class="px-4 py-3 font-medium text-cream">{{ car.name }}</td>
+                  <td class="px-4 py-3">{{ car.tier }}</td>
+                  <td class="px-4 py-3">{{ car.seats }}</td>
+                  <td class="px-4 py-3">{{ car.luggage }}</td>
+                  <td class="px-4 py-3">{{ car.bestFor }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -632,6 +888,203 @@ function bookVehicle(vehicleName: string) {
         </div>
       </section>
 
+      <!-- Airport spotlight -->
+      <section id="airport" class="scroll-mt-24 bg-navy-900 py-16 md:py-20">
+        <div class="mx-auto grid max-w-6xl gap-10 px-4 md:grid-cols-2 md:items-center">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+              Airport transfers
+            </p>
+            <h2 class="mt-4 font-serif text-3xl font-semibold text-cream md:text-4xl">
+              OR Tambo &amp; Lanseria,
+              <span class="italic text-gold">done properly.</span>
+            </h2>
+            <p class="mt-4 text-sm leading-relaxed text-beige md:text-base">
+              Flight-aware timing, optional meet &amp; greet, luggage help, and a confirmed
+              chauffeur — the same airport standard the top Jozi operators sell.
+            </p>
+            <ul class="mt-6 space-y-2 text-sm text-cream">
+              <li class="flex gap-2"><span class="text-gold">✓</span> Named passenger pickup</li>
+              <li class="flex gap-2"><span class="text-gold">✓</span> Meet &amp; greet on request</li>
+              <li class="flex gap-2"><span class="text-gold">✓</span> Vehicle matched to people + bags</li>
+            </ul>
+            <button
+              type="button"
+              class="mt-8 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
+              @click="scrollTo('book')"
+            >
+              Book airport transfer
+            </button>
+          </div>
+          <div class="rounded-2xl border border-navy-700 bg-navy-850 p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
+              Popular routes
+            </p>
+            <ul class="mt-5 space-y-4 text-sm text-beige">
+              <li class="flex justify-between gap-4 border-b border-navy-700 pb-3">
+                <span>OR Tambo → Sandton</span>
+                <span class="text-cream">Quote on WhatsApp</span>
+              </li>
+              <li class="flex justify-between gap-4 border-b border-navy-700 pb-3">
+                <span>OR Tambo → Pretoria</span>
+                <span class="text-cream">Quote on WhatsApp</span>
+              </li>
+              <li class="flex justify-between gap-4 border-b border-navy-700 pb-3">
+                <span>Lanseria → Sandton / Midrand</span>
+                <span class="text-cream">Quote on WhatsApp</span>
+              </li>
+              <li class="flex justify-between gap-4">
+                <span>Hotel ↔ Airport return</span>
+                <span class="text-cream">Ask for return rate</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quotes / rates style -->
+      <section id="rates" class="scroll-mt-24 bg-navy-950 py-16 md:py-24">
+        <div class="mx-auto max-w-6xl px-4">
+          <p class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+            Transparent quotes
+          </p>
+          <h2
+            class="mx-auto mt-4 max-w-3xl text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
+          >
+            Quote any vehicle —
+            <span class="italic text-gold">confirmed before you ride.</span>
+          </h2>
+          <p class="mx-auto mt-3 max-w-2xl text-center text-sm text-beige">
+            Pick a car from our fleet and request a WhatsApp quote for your route, date and passengers.
+          </p>
+
+          <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <article
+              v-for="tier in quoteTiers"
+              :key="tier.name"
+              class="flex flex-col rounded-2xl border border-navy-700 bg-navy-900 p-6"
+            >
+              <h3 class="font-serif text-2xl font-semibold text-cream">{{ tier.name }}</h3>
+              <p class="mt-2 text-sm text-gold">{{ tier.examples }}</p>
+              <p class="mt-4 flex-1 text-sm text-beige">{{ tier.best }}</p>
+              <button
+                type="button"
+                class="mt-6 w-full rounded-lg border border-gold/50 py-3 text-sm font-semibold text-gold transition hover:bg-gold hover:text-navy-900"
+                @click="requestQuote(tier.name)"
+              >
+                Request quote
+              </button>
+            </article>
+          </div>
+
+          <div class="mt-10 rounded-2xl border border-navy-700 bg-navy-850/60 p-6 md:p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
+              Optional add-ons
+            </p>
+            <ul class="mt-5 flex flex-wrap gap-3">
+              <li
+                v-for="extra in addOns"
+                :key="extra"
+                class="rounded-full border border-navy-700 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-cream"
+              >
+                {{ extra }}
+              </li>
+            </ul>
+            <p class="mt-5 text-sm text-beige">
+              Mention extras in your booking notes — we’ll confirm availability and cost upfront.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" class="scroll-mt-24 bg-navy-900 py-16 md:py-24">
+        <div class="mx-auto max-w-6xl px-4">
+          <p class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+            How it works
+          </p>
+          <h2
+            class="mx-auto mt-4 max-w-2xl text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
+          >
+            Book in four clear steps.
+          </h2>
+          <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div
+              v-for="step in howItWorks"
+              :key="step.n"
+              class="border-t border-gold/40 pt-6"
+            >
+              <p class="text-sm font-medium text-gold">{{ step.n }}</p>
+              <h3 class="mt-2 font-serif text-xl font-semibold text-cream">
+                {{ step.title }}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-beige">{{ step.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Coverage -->
+      <section id="areas" class="scroll-mt-24 bg-navy-950 py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4 text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+            Where we drive
+          </p>
+          <h2
+            class="mx-auto mt-4 max-w-2xl font-serif text-3xl font-semibold text-cream md:text-4xl"
+          >
+            Gauteng coverage,
+            <span class="italic text-gold">and beyond.</span>
+          </h2>
+          <p class="mx-auto mt-3 max-w-xl text-sm text-beige">
+            Same focus as leading Jozi chauffeurs and shuttles — airport, city, corporate, and
+            outstation routes.
+          </p>
+          <ul
+            class="mt-10 flex flex-wrap justify-center gap-3"
+          >
+            <li
+              v-for="area in serviceAreas"
+              :key="area"
+              class="rounded-full border border-navy-700 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-cream"
+            >
+              {{ area }}
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="scroll-mt-24 bg-navy-900 py-16 md:py-24">
+        <div class="mx-auto max-w-6xl px-4">
+          <p class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+            FAQ
+          </p>
+          <h2
+            class="mt-4 text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
+          >
+            Common questions.
+          </h2>
+          <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <details
+              v-for="item in faqs"
+              :key="item.q"
+              class="group rounded-xl border border-navy-700 bg-navy-850 px-5 py-4"
+            >
+              <summary
+                class="cursor-pointer list-none font-serif text-base font-semibold text-cream marker:content-none md:text-lg [&::-webkit-details-marker]:hidden"
+              >
+                <span class="flex items-start justify-between gap-3">
+                  {{ item.q }}
+                  <span class="shrink-0 text-gold transition group-open:rotate-45">+</span>
+                </span>
+              </summary>
+              <p class="mt-3 text-sm leading-relaxed text-beige">{{ item.a }}</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <!-- Book -->
       <section id="book" class="scroll-mt-24 bg-navy-900 py-16 md:py-24">
         <div class="mx-auto max-w-3xl px-4">
@@ -712,19 +1165,25 @@ function bookVehicle(vehicleName: string) {
                 />
               </label>
               <label class="block">
-                <span class="sr-only">Date</span>
+                <span class="mb-1.5 block text-xs font-medium text-beige">Pickup date</span>
                 <input
                   v-model="form.date"
                   type="date"
-                  class="w-full rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
+                  required
+                  :min="minPickupDate"
+                  class="booking-datetime w-full cursor-pointer rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
+                  @click="openPicker"
                 />
               </label>
               <label class="block">
-                <span class="sr-only">Time</span>
+                <span class="mb-1.5 block text-xs font-medium text-beige">Pickup time</span>
                 <input
                   v-model="form.time"
                   type="time"
-                  class="w-full rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
+                  required
+                  step="300"
+                  class="booking-datetime w-full cursor-pointer rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
+                  @click="openPicker"
                 />
               </label>
             </div>
@@ -733,7 +1192,7 @@ function bookVehicle(vehicleName: string) {
               <textarea
                 v-model="form.notes"
                 rows="3"
-                placeholder="Notes (luggage, child seat, etc.)"
+                placeholder="Notes (meet & greet, child seat, luggage, extra stops…)"
                 class="w-full rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream placeholder:text-beige/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
               />
             </label>
@@ -778,8 +1237,8 @@ function bookVehicle(vehicleName: string) {
                 </svg>
               </span>
               <div>
-                <p class="font-semibold text-cream">071 463 0640</p>
-                <p class="text-sm text-beige">{{ WHATSAPP_SECONDARY_DISPLAY }}</p>
+                <p class="font-semibold text-cream">{{ WHATSAPP_DISPLAY }}</p>
+                <p class="text-sm text-beige">WhatsApp · quotes & bookings</p>
               </div>
             </a>
             <a
@@ -800,7 +1259,7 @@ function bookVehicle(vehicleName: string) {
               </span>
               <div>
                 <p class="font-semibold text-cream">{{ EMAIL }}</p>
-                <p class="text-sm text-beige">We reply within the hour</p>
+                <p class="text-sm text-beige">Corporate quotes & invoices</p>
               </div>
             </a>
           </div>
@@ -817,6 +1276,15 @@ function bookVehicle(vehicleName: string) {
           >
             Your journey · Our priority
           </p>
+          <footer class="mt-10 border-t border-navy-700 pt-6 text-center">
+            <p class="text-xs text-beige">
+              © {{ new Date().getFullYear() }} VSM Tours. All rights reserved.
+            </p>
+            <p class="mt-2 text-[11px] text-beige/80">
+              Developed by
+              <span class="font-medium text-gold">Kaybee Debug Solutions</span>
+            </p>
+          </footer>
         </div>
       </section>
     </main>
@@ -851,5 +1319,17 @@ select:-webkit-autofill {
   -webkit-text-fill-color: var(--foreground) !important;
   caret-color: var(--foreground);
   box-shadow: 0 0 0 1000px var(--navy-deep) inset !important;
+}
+
+/* Date / time: visible calendar & clock controls on dark theme */
+.booking-datetime {
+  color-scheme: dark;
+}
+.booking-datetime::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 1;
+  filter: invert(0.85) sepia(0.4) saturate(4) hue-rotate(5deg);
+  width: 1.15rem;
+  height: 1.15rem;
 }
 </style>
