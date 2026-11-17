@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const WHATSAPP_PRIMARY = '27605457885'
 const WHATSAPP_DISPLAY = '+27 60 545 7885'
-const EMAIL = 'victormolepl@gmail.com'
+const EMAIL = 'vsmtours8@gmail.com'
+const EMAIL_DISPLAY = 'VSMTOURS8@GMAIL.COM'
 
 const mobileOpen = ref(false)
 
@@ -60,46 +61,51 @@ const fleet = [
     n: '01',
     name: 'C-Class',
     tagline: 'Executive comfort, every mile.',
-    seats: 4,
-    luggage: '2–3 bags',
+    seats: 3,
+    luggage: '',
     bestFor: 'Solo exec, short city runs',
     tier: 'Executive sedan',
+    image: '/fleet/c-class.jpg',
   },
   {
     n: '02',
     name: 'V-Class',
     tagline: 'Travel together, in ultimate comfort.',
     seats: 6,
-    luggage: 'Flexible / group luggage',
-    bestFor: 'VIP groups, airport with bags',
+    luggage: '',
+    bestFor: 'VIP groups & shared travel',
     tier: 'Luxury MPV',
+    image: '/fleet/v-class.jpg',
   },
   {
     n: '03',
     name: 'E-Class',
     tagline: 'Refined luxury for business and beyond.',
-    seats: 4,
-    luggage: '2–3 bags',
+    seats: 3,
+    luggage: '',
     bestFor: 'Corporate, meetings, VIP',
     tier: 'Executive sedan',
+    image: '/fleet/e-class.jpg',
   },
   {
     n: '04',
     name: 'BMW X3',
     tagline: 'Bold presence, premium ride.',
-    seats: 5,
-    luggage: 'Generous boot space',
+    seats: 3,
+    luggage: '',
     bestFor: 'SUV comfort, leisure & business',
     tier: 'Premium SUV',
+    image: '/fleet/bmw-x3.jpg',
   },
   {
     n: '05',
     name: 'Hyundai Staria',
     tagline: 'Space that moves you.',
-    seats: 7,
-    luggage: 'High capacity',
+    seats: 8,
+    luggage: 'More luggage space',
     bestFor: 'Families, teams, events',
     tier: 'Luxury van',
+    image: '/fleet/staria.jpg',
   },
 ]
 
@@ -122,34 +128,6 @@ const inclusions = [
   },
 ]
 
-const quoteTiers = [
-  {
-    name: 'C-Class',
-    examples: 'Executive sedan',
-    best: '1–3 passengers · airport & meetings',
-  },
-  {
-    name: 'E-Class',
-    examples: 'Executive sedan',
-    best: '1–3 passengers · corporate & VIP',
-  },
-  {
-    name: 'BMW X3',
-    examples: 'Premium SUV',
-    best: '1–4 passengers · comfort with luggage',
-  },
-  {
-    name: 'V-Class',
-    examples: 'Luxury MPV',
-    best: 'Up to 6 · VIP groups & airport with bags',
-  },
-  {
-    name: 'Hyundai Staria',
-    examples: 'Luxury van',
-    best: 'Up to 7 · families, teams & events',
-  },
-]
-
 const addOns = [
   'Child seat',
   'Meet & greet',
@@ -162,7 +140,7 @@ const addOns = [
 const services = [
   {
     title: 'Airport Transfers',
-    desc: 'OR Tambo & Lanseria — flight-aware pickups, meet & greet, and luggage assistance.',
+    desc: 'OR Tambo & Lanseria — flight-aware pickups and meet & greet. Luggage confirmed per trip.',
     icon: 'plane',
   },
   {
@@ -237,7 +215,7 @@ const faqs = [
   },
   {
     q: 'Can you move groups or conference guests?',
-    a: 'Yes. Tell us passenger numbers and luggage — we’ll recommend V-Class, Staria, or a suitable plan for your schedule.',
+    a: 'Yes. Tell us passenger numbers — we’ll recommend V-Class (6), Staria (8), or a sedan/SUV (3). Luggage is confirmed separately for your trip.',
   },
   {
     q: 'How do I get a quote?',
@@ -245,7 +223,7 @@ const faqs = [
   },
   {
     q: 'Do you offer child seats or extras?',
-    a: 'Yes — note child seats, meet & greet, extra stops, or waiting time in your booking notes and we’ll confirm availability.',
+    a: 'Yes — note child seats, meet & greet, luggage needs, extra stops, or waiting time in your booking notes and we’ll confirm availability.',
   },
   {
     q: 'Can companies get invoices / accounts?',
@@ -297,7 +275,7 @@ function formatPickupTime(t: string) {
 function buildBookingMessage() {
   const lines = [
     '*VSM TOURS*',
-    '_Premium Fleet - Premium Experience_',
+    '_Private chauffeurs - Gauteng and beyond_',
     '------------------------------',
     '*NEW BOOKING REQUEST*',
     '------------------------------',
@@ -338,7 +316,7 @@ function openWhatsAppChat() {
     waUrl(
       [
         '*VSM TOURS*',
-        '_Premium Fleet - Premium Experience_',
+        '_Private chauffeurs - Gauteng and beyond_',
         '------------------------------',
         "Hi - I'd like to chat about a ride.",
         '',
@@ -353,23 +331,6 @@ function openWhatsAppChat() {
 function bookVehicle(vehicleName: string) {
   form.vehicle = vehicleName
   scrollTo('book')
-}
-
-function requestQuote(tierName?: string) {
-  const lines = [
-    '*VSM TOURS*',
-    '_Premium Fleet - Premium Experience_',
-    '------------------------------',
-    '*QUOTE REQUEST*',
-    '------------------------------',
-    '',
-    tierName ? `*Category:* ${tierName}` : '*Category:* Please advise',
-    '',
-    'Please quote for my trip. I will share pickup, drop-off, date and passengers.',
-    '',
-    '_Your journey - Our priority_',
-  ]
-  window.open(waUrl(lines.join('\n')), '_blank', 'noopener,noreferrer')
 }
 
 </script>
@@ -392,37 +353,31 @@ function requestQuote(tierName?: string) {
       >
         <a
           href="#"
-          class="group flex shrink-0 items-center transition-opacity hover:opacity-90"
+          class="group flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90"
           aria-label="VSM Tours — home"
           @click.prevent="scrollTo('main')"
         >
           <img
-            src="/logo.png"
-            alt=""
-            width="1024"
-            height="682"
+            src="/logo-light.png"
+            alt="VSM Tours"
+            width="428"
+            height="322"
             decoding="async"
-            class="h-14 w-auto max-w-[min(85vw,20rem)] object-contain object-left sm:h-16 sm:max-w-[22rem] md:h-[4.25rem] md:max-w-[26rem]"
+            class="h-14 w-auto max-w-[9.5rem] object-contain object-left sm:h-16 sm:max-w-[11rem] md:h-[4.5rem] md:max-w-[12.5rem]"
           />
+          <span class="font-serif text-lg font-semibold tracking-wide text-cream sm:text-xl">
+            VSM Tours
+          </span>
         </a>
 
         <nav
-          class="hidden items-center gap-5 text-sm font-medium text-cream/90 lg:flex xl:gap-7"
+          class="hidden items-center gap-8 text-sm font-medium text-cream md:flex"
         >
-          <button type="button" class="transition hover:text-gold" @click="scrollTo('why')">
-            Why VSM
-          </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('fleet')">
             Fleet
           </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('services')">
             Services
-          </button>
-          <button type="button" class="transition hover:text-gold" @click="scrollTo('rates')">
-            Quotes
-          </button>
-          <button type="button" class="transition hover:text-gold" @click="scrollTo('how')">
-            How it works
           </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('book')">
             Book
@@ -483,20 +438,11 @@ function requestQuote(tierName?: string) {
         class="border-t border-navy-700 bg-navy-850 px-4 py-4 md:hidden"
       >
         <div class="flex flex-col gap-3 text-sm font-medium">
-          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('why')">
-            Why VSM
-          </button>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('fleet')">
             Fleet
           </button>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('services')">
             Services
-          </button>
-          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('rates')">
-            Quotes
-          </button>
-          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('how')">
-            How it works
           </button>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('book')">
             Book
@@ -533,42 +479,44 @@ function requestQuote(tierName?: string) {
         />
 
         <div
-          class="relative z-10 mx-auto flex max-w-6xl flex-col justify-end gap-4 px-4 pb-16 pt-24 md:min-h-[78vh] md:justify-end md:gap-5 md:pb-24 md:pt-28"
+          class="relative z-10 mx-auto flex max-w-6xl flex-col justify-end gap-5 px-4 pb-16 pt-24 md:min-h-[78vh] md:justify-end md:gap-6 md:pb-24 md:pt-28"
         >
-          <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold md:text-xs">
+          <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cream/80 md:text-sm">
             Comfort · Style · Memories
           </p>
-          <div class="max-w-xl space-y-0.5">
+          <div class="max-w-2xl space-y-1">
             <h1
-              class="font-serif text-3xl font-semibold leading-tight tracking-tight text-cream md:text-4xl lg:text-[2.75rem]"
+              class="font-serif text-4xl font-semibold leading-tight tracking-tight text-cream md:text-5xl lg:text-6xl"
             >
-              Premium Fleet.
+              Private chauffeurs.
             </h1>
             <p
-              class="font-serif text-3xl italic leading-tight text-gold md:text-4xl lg:text-[2.75rem]"
+              class="font-serif text-4xl italic leading-tight text-cream md:text-5xl lg:text-6xl"
             >
-              Premium Experience.
+              Across Gauteng <span class="text-gold">&amp; beyond.</span>
             </p>
           </div>
-          <p class="max-w-md text-xs leading-relaxed text-cream/90 md:max-w-lg md:text-sm">
-            Chauffeured travel across the city and beyond — airport transfers,
-            outstation trips, weddings, and corporate rides.
+          <p
+            class="max-w-xl rounded-lg bg-[rgba(1,11,58,0.92)] px-3 py-2.5 text-base leading-relaxed text-cream md:px-4 md:py-3 md:text-lg"
+          >
+            Airport transfers, corporate travel, weddings and outstation trips —
+            book in minutes on WhatsApp.
           </p>
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-4">
             <button
               type="button"
-              class="rounded-lg bg-gold px-4 py-2.5 text-xs font-semibold text-navy-900 shadow-lg shadow-[0_10px_28px_rgba(1,11,58,0.45)] transition hover:bg-gold-light md:text-sm"
+              class="rounded-lg bg-gold px-5 py-3 text-sm font-semibold text-navy-900 shadow-lg shadow-[0_10px_28px_rgba(1,11,58,0.45)] transition hover:bg-gold-light md:px-6 md:py-3.5 md:text-base"
               @click="scrollTo('book')"
             >
-              Book Your Ride Today
+              Book a ride
             </button>
             <button
               type="button"
-              class="inline-flex items-center gap-1.5 text-xs font-medium text-gold transition hover:text-gold-light md:text-sm"
+              class="inline-flex items-center gap-2 rounded-lg border border-cream/40 bg-navy-950/40 px-4 py-3 text-sm font-medium text-cream backdrop-blur-sm transition hover:border-gold hover:text-gold md:px-5 md:text-base"
               @click="openWhatsAppChat"
             >
               <svg
-                class="h-4 w-4 shrink-0 text-cream"
+                class="h-5 w-5 shrink-0 text-whatsapp"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -577,26 +525,26 @@ function requestQuote(tierName?: string) {
                   d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-3 11H7v-2h10v2zm0-4H7V7h10v2z"
                 />
               </svg>
-              Chat on WhatsApp
+              WhatsApp us
             </button>
           </div>
 
           <div
-            class="mt-4 grid max-w-2xl grid-cols-2 gap-x-4 gap-y-3 border-t border-navy-700/70 pt-5 md:mt-5 md:grid-cols-4 md:gap-3"
+            class="mt-5 grid max-w-3xl grid-cols-2 gap-x-5 gap-y-4 border-t border-cream/25 pt-6 md:mt-6 md:grid-cols-4 md:gap-4"
           >
             <div
               v-for="(t, i) in trustPoints"
               :key="i"
-              class="flex flex-col items-start gap-1"
+              class="flex flex-col items-start gap-1.5"
             >
               <span
-                class="text-[9px] font-semibold uppercase tracking-wider text-gold md:text-[10px]"
+                class="text-xs font-semibold uppercase tracking-wider text-cream md:text-sm"
                 >{{ t.label }}</span
               >
-              <span class="text-gold" aria-hidden="true">
+              <span class="text-cream/80" aria-hidden="true">
                 <svg
                   v-if="t.icon === 'car'"
-                  class="h-4 w-4"
+                  class="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -610,7 +558,7 @@ function requestQuote(tierName?: string) {
                 </svg>
                 <svg
                   v-else-if="t.icon === 'shield'"
-                  class="h-4 w-4"
+                  class="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -624,7 +572,7 @@ function requestQuote(tierName?: string) {
                 </svg>
                 <svg
                   v-else-if="t.icon === 'user'"
-                  class="h-4 w-4"
+                  class="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -638,7 +586,7 @@ function requestQuote(tierName?: string) {
                 </svg>
                 <svg
                   v-else
-                  class="h-4 w-4"
+                  class="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -681,7 +629,7 @@ function requestQuote(tierName?: string) {
               class="border-t border-gold/35 pt-6"
             >
               <h3 class="font-serif text-xl font-semibold text-cream">{{ item.title }}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-beige">{{ item.desc }}</p>
+              <p class="mt-2 text-sm leading-relaxed text-cream/85">{{ item.desc }}</p>
             </article>
           </div>
         </div>
@@ -704,8 +652,8 @@ function requestQuote(tierName?: string) {
                 <span class="block font-serif italic text-gold">Endless journeys.</span>
               </h2>
             </div>
-            <p class="max-w-md text-sm leading-relaxed text-beige md:text-right">
-              Choose by seats, luggage and journey type — then book straight on WhatsApp.
+            <p class="max-w-md text-sm leading-relaxed text-cream/85 md:text-right">
+              Choose by seats and journey type — luggage needs are confirmed with you separately.
             </p>
           </div>
 
@@ -713,63 +661,51 @@ function requestQuote(tierName?: string) {
             <article
               v-for="car in fleet"
               :key="car.n"
-              class="group flex flex-col rounded-xl border border-navy-700 bg-navy-900 p-6 transition hover:border-gold/25"
+              class="group flex flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-850 transition hover:border-gold/30"
             >
-              <div class="flex items-start justify-between gap-3">
-                <span class="text-sm font-medium text-gold">{{ car.n }}</span>
-                <span class="text-[10px] font-semibold uppercase tracking-wider text-beige">
-                  {{ car.tier }}
+              <div class="relative aspect-[16/10] overflow-hidden bg-navy-950">
+                <img
+                  :src="car.image"
+                  :alt="car.name"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <span
+                  class="absolute left-3 top-3 rounded bg-navy-950/80 px-2 py-1 text-xs font-medium text-cream"
+                >
+                  {{ car.n }}
                 </span>
               </div>
-              <h3 class="mt-2 font-serif text-2xl font-semibold text-cream">
-                {{ car.name }}
-              </h3>
-              <p class="mt-2 text-sm text-beige">{{ car.tagline }}</p>
-              <p class="mt-3 text-xs text-gold">Best for: {{ car.bestFor }}</p>
-              <div
-                class="mt-6 flex items-center justify-between gap-3 border-t border-navy-700 pt-4"
-              >
-                <div class="min-w-0 text-sm text-gold">
-                  <p>{{ car.seats }} seats</p>
-                  <p class="truncate text-xs text-beige">{{ car.luggage }}</p>
+              <div class="flex flex-1 flex-col p-5">
+                <div class="flex items-start justify-between gap-3">
+                  <h3 class="font-serif text-2xl font-semibold text-cream">
+                    {{ car.name }}
+                  </h3>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider text-cream/70">
+                    {{ car.tier }}
+                  </span>
                 </div>
-                <button
-                  type="button"
-                  class="shrink-0 text-sm font-medium text-gold transition hover:text-gold-light"
-                  @click="bookVehicle(car.name)"
+                <p class="mt-2 text-sm text-cream/85">{{ car.tagline }}</p>
+                <p class="mt-2 text-xs text-cream/70">{{ car.bestFor }}</p>
+                <div
+                  class="mt-5 flex items-center justify-between gap-3 border-t border-navy-700 pt-4"
                 >
-                  Book →
-                </button>
+                  <div class="min-w-0 text-sm text-cream">
+                    <p class="font-medium">{{ car.seats }} seats</p>
+                    <p v-if="car.luggage" class="truncate text-xs text-cream/80">
+                      {{ car.luggage }}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="shrink-0 rounded-md bg-gold px-3 py-2 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
+                    @click="bookVehicle(car.name)"
+                  >
+                    Book
+                  </button>
+                </div>
               </div>
             </article>
-          </div>
-
-          <div class="mt-14 overflow-x-auto rounded-2xl border border-navy-700">
-            <table class="min-w-full text-left text-sm">
-              <caption class="sr-only">Fleet comparison</caption>
-              <thead class="bg-navy-850 text-xs uppercase tracking-wider text-gold">
-                <tr>
-                  <th class="px-4 py-3 font-semibold">Vehicle</th>
-                  <th class="px-4 py-3 font-semibold">Tier</th>
-                  <th class="px-4 py-3 font-semibold">Seats</th>
-                  <th class="px-4 py-3 font-semibold">Luggage</th>
-                  <th class="px-4 py-3 font-semibold">Best for</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="car in fleet"
-                  :key="`cmp-${car.n}`"
-                  class="border-t border-navy-700 text-beige"
-                >
-                  <td class="px-4 py-3 font-medium text-cream">{{ car.name }}</td>
-                  <td class="px-4 py-3">{{ car.tier }}</td>
-                  <td class="px-4 py-3">{{ car.seats }}</td>
-                  <td class="px-4 py-3">{{ car.luggage }}</td>
-                  <td class="px-4 py-3">{{ car.bestFor }}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
@@ -882,7 +818,7 @@ function requestQuote(tierName?: string) {
                 </svg>
               </div>
               <h3 class="font-serif text-xl font-semibold text-cream">{{ svc.title }}</h3>
-              <p class="mt-2 text-sm text-beige">{{ svc.desc }}</p>
+              <p class="mt-2 text-sm text-cream/85">{{ svc.desc }}</p>
             </div>
           </div>
         </div>
@@ -899,14 +835,14 @@ function requestQuote(tierName?: string) {
               OR Tambo &amp; Lanseria,
               <span class="italic text-gold">done properly.</span>
             </h2>
-            <p class="mt-4 text-sm leading-relaxed text-beige md:text-base">
-              Flight-aware timing, optional meet &amp; greet, luggage help, and a confirmed
-              chauffeur — the same airport standard the top Jozi operators sell.
+            <p class="mt-4 text-sm leading-relaxed text-cream/90 md:text-base">
+              Flight-aware timing, optional meet &amp; greet, and a confirmed chauffeur.
+              Luggage needs are discussed with you for each booking.
             </p>
             <ul class="mt-6 space-y-2 text-sm text-cream">
               <li class="flex gap-2"><span class="text-gold">✓</span> Named passenger pickup</li>
               <li class="flex gap-2"><span class="text-gold">✓</span> Meet &amp; greet on request</li>
-              <li class="flex gap-2"><span class="text-gold">✓</span> Vehicle matched to people + bags</li>
+              <li class="flex gap-2"><span class="text-gold">✓</span> Vehicle matched to your passengers</li>
             </ul>
             <button
               type="button"
@@ -920,7 +856,7 @@ function requestQuote(tierName?: string) {
             <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Popular routes
             </p>
-            <ul class="mt-5 space-y-4 text-sm text-beige">
+            <ul class="mt-5 space-y-4 text-sm text-cream/85">
               <li class="flex justify-between gap-4 border-b border-navy-700 pb-3">
                 <span>OR Tambo → Sandton</span>
                 <span class="text-cream">Quote on WhatsApp</span>
@@ -942,58 +878,44 @@ function requestQuote(tierName?: string) {
         </div>
       </section>
 
-      <!-- Quotes / rates style -->
-      <section id="rates" class="scroll-mt-24 bg-navy-950 py-16 md:py-24">
-        <div class="mx-auto max-w-6xl px-4">
-          <p class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold">
-            Transparent quotes
+      <!-- Simple quote CTA (no second vehicle list) -->
+      <section id="rates" class="scroll-mt-24 bg-navy-950 py-14 md:py-20">
+        <div class="mx-auto max-w-3xl px-4 text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.3em] text-cream/70">
+            Clear quotes
           </p>
-          <h2
-            class="mx-auto mt-4 max-w-3xl text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
-          >
-            Quote any vehicle —
-            <span class="italic text-gold">confirmed before you ride.</span>
+          <h2 class="mt-3 font-serif text-3xl font-semibold text-cream md:text-4xl">
+            One form. Fast WhatsApp reply.
           </h2>
-          <p class="mx-auto mt-3 max-w-2xl text-center text-sm text-beige">
-            Pick a car from our fleet and request a WhatsApp quote for your route, date and passengers.
+          <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-cream/85 md:text-base">
+            Choose a vehicle in Fleet, then send pickup, drop-off, date and passengers.
+            We confirm price before you ride. Luggage and add-ons are discussed in your notes.
           </p>
-
-          <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <article
-              v-for="tier in quoteTiers"
-              :key="tier.name"
-              class="flex flex-col rounded-2xl border border-navy-700 bg-navy-900 p-6"
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              class="rounded-lg bg-gold px-6 py-3.5 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
+              @click="scrollTo('book')"
             >
-              <h3 class="font-serif text-2xl font-semibold text-cream">{{ tier.name }}</h3>
-              <p class="mt-2 text-sm text-gold">{{ tier.examples }}</p>
-              <p class="mt-4 flex-1 text-sm text-beige">{{ tier.best }}</p>
-              <button
-                type="button"
-                class="mt-6 w-full rounded-lg border border-gold/50 py-3 text-sm font-semibold text-gold transition hover:bg-gold hover:text-navy-900"
-                @click="requestQuote(tier.name)"
-              >
-                Request quote
-              </button>
-            </article>
+              Start booking
+            </button>
+            <button
+              type="button"
+              class="rounded-lg border border-cream/35 px-6 py-3.5 text-sm font-semibold text-cream transition hover:border-gold hover:text-gold"
+              @click="openWhatsAppChat"
+            >
+              WhatsApp a quote
+            </button>
           </div>
-
-          <div class="mt-10 rounded-2xl border border-navy-700 bg-navy-850/60 p-6 md:p-8">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
-              Optional add-ons
-            </p>
-            <ul class="mt-5 flex flex-wrap gap-3">
-              <li
-                v-for="extra in addOns"
-                :key="extra"
-                class="rounded-full border border-navy-700 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-cream"
-              >
-                {{ extra }}
-              </li>
-            </ul>
-            <p class="mt-5 text-sm text-beige">
-              Mention extras in your booking notes — we’ll confirm availability and cost upfront.
-            </p>
-          </div>
+          <ul class="mt-8 flex flex-wrap justify-center gap-2">
+            <li
+              v-for="extra in addOns"
+              :key="extra"
+              class="rounded-full border border-navy-700 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-cream/80"
+            >
+              {{ extra }}
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -1018,7 +940,7 @@ function requestQuote(tierName?: string) {
               <h3 class="mt-2 font-serif text-xl font-semibold text-cream">
                 {{ step.title }}
               </h3>
-              <p class="mt-2 text-sm leading-relaxed text-beige">{{ step.desc }}</p>
+              <p class="mt-2 text-sm leading-relaxed text-cream/85">{{ step.desc }}</p>
             </div>
           </div>
         </div>
@@ -1036,9 +958,8 @@ function requestQuote(tierName?: string) {
             Gauteng coverage,
             <span class="italic text-gold">and beyond.</span>
           </h2>
-          <p class="mx-auto mt-3 max-w-xl text-sm text-beige">
-            Same focus as leading Jozi chauffeurs and shuttles — airport, city, corporate, and
-            outstation routes.
+          <p class="mx-auto mt-3 max-w-xl text-sm text-cream/85">
+            Airport, city, corporate, and outstation routes across Gauteng and beyond.
           </p>
           <ul
             class="mt-10 flex flex-wrap justify-center gap-3"
@@ -1079,7 +1000,7 @@ function requestQuote(tierName?: string) {
                   <span class="shrink-0 text-gold transition group-open:rotate-45">+</span>
                 </span>
               </summary>
-              <p class="mt-3 text-sm leading-relaxed text-beige">{{ item.a }}</p>
+              <p class="mt-3 text-sm leading-relaxed text-cream/85">{{ item.a }}</p>
             </details>
           </div>
         </div>
@@ -1096,7 +1017,7 @@ function requestQuote(tierName?: string) {
           >
             Reserve <span class="italic text-gold">in seconds.</span>
           </h2>
-          <p class="mt-3 text-center text-sm text-beige">
+          <p class="mt-3 text-center text-sm text-cream/85">
             Fill the form and we’ll receive your booking on WhatsApp instantly.
           </p>
 
@@ -1139,7 +1060,7 @@ function requestQuote(tierName?: string) {
                   v-model="form.passengers"
                   type="number"
                   min="1"
-                  max="20"
+                  max="8"
                   placeholder="Passengers"
                   class="w-full rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream placeholder:text-beige/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
                 />
@@ -1165,7 +1086,7 @@ function requestQuote(tierName?: string) {
                 />
               </label>
               <label class="block">
-                <span class="mb-1.5 block text-xs font-medium text-beige">Pickup date</span>
+                <span class="mb-1.5 block text-xs font-medium text-cream/80">Pickup date</span>
                 <input
                   v-model="form.date"
                   type="date"
@@ -1176,7 +1097,7 @@ function requestQuote(tierName?: string) {
                 />
               </label>
               <label class="block">
-                <span class="mb-1.5 block text-xs font-medium text-beige">Pickup time</span>
+                <span class="mb-1.5 block text-xs font-medium text-cream/80">Pickup time</span>
                 <input
                   v-model="form.time"
                   type="time"
@@ -1192,7 +1113,7 @@ function requestQuote(tierName?: string) {
               <textarea
                 v-model="form.notes"
                 rows="3"
-                placeholder="Notes (meet & greet, child seat, luggage, extra stops…)"
+                placeholder="Notes (luggage details, meet & greet, child seat, extra stops…)"
                 class="w-full rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-cream placeholder:text-beige/45 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/35"
               />
             </label>
@@ -1238,7 +1159,7 @@ function requestQuote(tierName?: string) {
               </span>
               <div>
                 <p class="font-semibold text-cream">{{ WHATSAPP_DISPLAY }}</p>
-                <p class="text-sm text-beige">WhatsApp · quotes & bookings</p>
+                <p class="text-sm text-cream/80">WhatsApp · quotes & bookings</p>
               </div>
             </a>
             <a
@@ -1258,14 +1179,14 @@ function requestQuote(tierName?: string) {
                 </svg>
               </span>
               <div>
-                <p class="font-semibold text-cream">{{ EMAIL }}</p>
-                <p class="text-sm text-beige">Corporate quotes & invoices</p>
+                <p class="font-semibold text-cream">{{ EMAIL_DISPLAY }}</p>
+                <p class="text-sm text-cream/80">Corporate quotes & invoices</p>
               </div>
             </a>
           </div>
 
           <div
-            class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-2 border-t border-navy-700 pt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-beige md:text-xs"
+            class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-2 border-t border-navy-700 pt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-cream/80 md:text-xs"
           >
             <span>Premium vehicles</span>
             <span>Professional service</span>
@@ -1277,10 +1198,10 @@ function requestQuote(tierName?: string) {
             Your journey · Our priority
           </p>
           <footer class="mt-10 border-t border-navy-700 pt-6 text-center">
-            <p class="text-xs text-beige">
+            <p class="text-xs text-cream/85">
               © {{ new Date().getFullYear() }} VSM Tours. All rights reserved.
             </p>
-            <p class="mt-2 text-[11px] text-beige/80">
+            <p class="mt-2 text-[11px] text-cream/75">
               Developed by
               <span class="font-medium text-gold">Kaybee Debug Solutions</span>
             </p>
