@@ -12,7 +12,7 @@ export default {
     extend: {
       colors: {
         navy: {
-          /** Deepest navy — hero base, emphasis */
+          /** Deepest navy - hero base, emphasis */
           950: 'var(--navy-deep)',
           /** Page / section background */
           900: 'var(--background)',
@@ -31,8 +31,10 @@ export default {
         whatsapp: '#25d366',
       },
       fontFamily: {
-        serif: ['var(--font-display)', 'Georgia', 'serif'],
-        sans: ['"DM Sans"', 'var(--font-body)', 'system-ui', 'sans-serif'],
+        /** Headings - Sora (matches Base44 look) */
+        serif: ['var(--font-display)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-body)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
         gold: 'var(--shadow-gold)',

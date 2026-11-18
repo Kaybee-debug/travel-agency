@@ -156,7 +156,7 @@ const fleet = [
 const inclusions = [
   {
     title: 'Professional chauffeur',
-    desc: 'Punctual, discreet, and presentation-ready for every booking.',
+    desc: 'Punctual, discreet, and presentation-ready for every trip.',
   },
   {
     title: 'Flight-aware airport pickups',
@@ -164,7 +164,7 @@ const inclusions = [
   },
   {
     title: 'Clear WhatsApp quotes',
-    desc: 'No guesswork — confirm price, vehicle, and driver details before you ride.',
+    desc: 'No guesswork. Confirm price, vehicle, and driver details before you ride.',
   },
   {
     title: 'Comfort-first vehicles',
@@ -184,7 +184,7 @@ const addOns = [
 const services = [
   {
     title: 'Airport Transfers',
-    desc: 'OR Tambo & Lanseria — flight-aware pickups and meet & greet. Luggage confirmed per trip.',
+    desc: 'OR Tambo & Lanseria: flight-aware pickups and meet & greet. Luggage confirmed per trip.',
     icon: 'plane',
   },
   {
@@ -199,7 +199,7 @@ const services = [
   },
   {
     title: 'Outstation & Long Distance',
-    desc: 'Comfortable intercity travel — Pretoria, Sun City, Kruger gateways, and beyond.',
+    desc: 'Comfortable intercity travel to Pretoria, Sun City, Kruger gateways, and beyond.',
     icon: 'pin',
   },
   {
@@ -217,18 +217,18 @@ const services = [
 const howItWorks = [
   {
     n: '01',
-    title: 'Book on WhatsApp',
+    title: 'Request a quote',
     desc: 'Send your pickup, drop-off, date, time, and vehicle preference from our form.',
   },
   {
     n: '02',
-    title: 'We confirm details',
-    desc: 'We confirm availability, price, and chauffeur details before your trip.',
+    title: 'We send your quotation',
+    desc: 'We confirm availability, price, and chauffeur details on WhatsApp before you travel.',
   },
   {
     n: '03',
     title: 'Meet your chauffeur',
-    desc: 'Your driver arrives on time — meet & greet at the airport when requested.',
+    desc: 'Your driver arrives on time, with meet & greet at the airport when requested.',
   },
   {
     n: '04',
@@ -259,19 +259,19 @@ const faqs = [
   },
   {
     q: 'Can you move groups or conference guests?',
-    a: 'Yes. Tell us passenger numbers — we’ll recommend V-Class (6), Staria (8), or a sedan/SUV (3). Luggage is confirmed separately for your trip.',
+    a: 'Yes. Tell us passenger numbers and we’ll recommend V-Class (6), Staria (8), or a sedan/SUV (3). Luggage is confirmed separately for your trip.',
   },
   {
     q: 'How do I get a quote?',
-    a: 'Use the booking form or WhatsApp us with pickup, drop-off, date, time, and passengers. We’ll reply with a clear quote.',
+    a: 'Use the quote form or WhatsApp us with pickup, drop-off, date, time, and passengers. We’ll reply with a clear quotation.',
   },
   {
     q: 'Do you offer child seats or extras?',
-    a: 'Yes — note child seats, meet & greet, luggage needs, extra stops, or waiting time in your booking notes and we’ll confirm availability.',
+    a: 'Yes. Note child seats, meet & greet, luggage needs, extra stops, or waiting time in your quote notes and we’ll confirm availability.',
   },
   {
     q: 'Can companies get invoices / accounts?',
-    a: 'Yes. For corporate and repeat travel, WhatsApp or email us and we’ll set up clear confirmations and invoicing.',
+    a: 'Yes. For corporate and repeat travel, WhatsApp or email us and we’ll set up clear quotations and invoicing.',
   },
 ]
 
@@ -314,14 +314,14 @@ function formatPickupTime(t: string) {
 
 /**
  * WhatsApp prefill is plain text only (no logo / brand colors).
- * Avoid emojis / fancy unicode — some devices show them as � in wa.me links.
+ * Avoid emojis / fancy unicode; some devices show them as � in wa.me links.
  */
 function buildBookingMessage() {
   const lines = [
     '*VSM TOURS*',
     '_Private chauffeurs - Gauteng and beyond_',
     '------------------------------',
-    '*NEW BOOKING REQUEST*',
+    '*NEW QUOTE REQUEST*',
     '------------------------------',
     '',
     `*Name:* ${form.name.trim() || 'Not provided'}`,
@@ -398,7 +398,7 @@ function bookVehicle(vehicleName: string) {
         <a
           href="#"
           class="group flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90"
-          aria-label="VSM Tours — home"
+          aria-label="VSM Tours home"
           @click.prevent="scrollTo('main')"
         >
           <img
@@ -415,29 +415,52 @@ function bookVehicle(vehicleName: string) {
         </a>
 
         <nav
-          class="hidden items-center gap-8 text-sm font-medium text-cream md:flex"
+          class="hidden items-center gap-7 text-sm font-medium text-cream md:flex"
         >
-          <button type="button" class="transition hover:text-gold" @click="scrollTo('fleet')">
-            Fleet
-          </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('services')">
             Services
           </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('book')">
-            Book
+            Quote
+          </button>
+          <button type="button" class="transition hover:text-gold" @click="scrollTo('fleet')">
+            Fleet
           </button>
           <button type="button" class="transition hover:text-gold" @click="scrollTo('contact')">
             Contact
           </button>
         </nav>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3 sm:gap-4">
+          <a
+            :href="`https://wa.me/${WHATSAPP_PRIMARY}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hidden items-center gap-2 font-mono text-xs tracking-tight text-cream/80 transition hover:text-gold md:inline-flex"
+            :aria-label="`WhatsApp ${WHATSAPP_DISPLAY}`"
+          >
+            <svg
+              class="h-3.5 w-3.5 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+            {{ WHATSAPP_DISPLAY }}
+          </a>
           <button
             type="button"
-            class="hidden rounded-full bg-gold px-4 py-2 text-sm font-semibold text-navy-900 shadow-lg shadow-gold/10 transition hover:bg-gold-light md:inline-block"
+            class="hidden rounded-full bg-gold px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-navy-900 transition hover:bg-gold-light md:inline-block"
             @click="scrollTo('book')"
           >
-            Book a Ride
+            Request a quote
           </button>
           <button
             type="button"
@@ -482,23 +505,45 @@ function bookVehicle(vehicleName: string) {
         class="border-t border-navy-700 bg-navy-850 px-4 py-4 md:hidden"
       >
         <div class="flex flex-col gap-3 text-sm font-medium">
-          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('fleet')">
-            Fleet
-          </button>
+          <a
+            :href="`https://wa.me/${WHATSAPP_PRIMARY}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 py-1 text-left text-cream transition hover:text-gold"
+          >
+            <svg
+              class="h-4 w-4 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.75"
+                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+              />
+            </svg>
+            {{ WHATSAPP_DISPLAY }}
+          </a>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('services')">
             Services
           </button>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('book')">
-            Book
+            Quote
+          </button>
+          <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('fleet')">
+            Fleet
           </button>
           <button class="py-1 text-left text-cream transition hover:text-gold" @click="scrollTo('contact')">
             Contact
           </button>
           <button
-            class="mt-2 rounded-full bg-gold py-2.5 font-semibold text-navy-900 transition hover:bg-gold-light"
+            class="mt-2 rounded-full bg-gold py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-navy-900 transition hover:bg-gold-light"
             @click="scrollTo('book')"
           >
-            Book a Ride
+            Request a quote
           </button>
         </div>
       </div>
@@ -543,8 +588,7 @@ function bookVehicle(vehicleName: string) {
           <p
             class="max-w-xl rounded-lg bg-[rgba(1,11,58,0.92)] px-3 py-2.5 text-base leading-relaxed text-cream md:px-4 md:py-3 md:text-lg"
           >
-            Airport transfers, corporate travel, weddings and outstation trips —
-            book in minutes on WhatsApp.
+            Airport transfers, corporate travel, weddings and outstation trips. Request a quotation on WhatsApp.
           </p>
           <div class="flex flex-wrap items-center gap-4">
             <button
@@ -552,7 +596,7 @@ function bookVehicle(vehicleName: string) {
               class="rounded-lg bg-gold px-5 py-3 text-sm font-semibold text-navy-900 shadow-lg shadow-[0_10px_28px_rgba(1,11,58,0.45)] transition hover:bg-gold-light md:px-6 md:py-3.5 md:text-base"
               @click="scrollTo('book')"
             >
-              Book a ride
+              Request a quote
             </button>
             <button
               type="button"
@@ -566,7 +610,7 @@ function bookVehicle(vehicleName: string) {
                 aria-hidden="true"
               >
                 <path
-                  d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-3 11H7v-2h10v2zm0-4H7V7h10v2z"
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
                 />
               </svg>
               WhatsApp us
@@ -574,18 +618,14 @@ function bookVehicle(vehicleName: string) {
           </div>
 
           <div
-            class="mt-5 grid max-w-3xl grid-cols-2 gap-x-5 gap-y-4 border-t border-cream/25 pt-6 md:mt-6 md:grid-cols-4 md:gap-4"
+            class="mt-5 flex max-w-4xl flex-wrap items-center gap-x-6 gap-y-3 border-t border-cream/25 pt-6 md:mt-6 md:gap-x-8"
           >
             <div
               v-for="(t, i) in trustPoints"
               :key="i"
-              class="flex flex-col items-start gap-1.5"
+              class="flex shrink-0 items-center gap-2"
             >
-              <span
-                class="text-xs font-semibold uppercase tracking-wider text-cream md:text-sm"
-                >{{ t.label }}</span
-              >
-              <span class="text-cream/80" aria-hidden="true">
+              <span class="shrink-0 text-gold" aria-hidden="true">
                 <svg
                   v-if="t.icon === 'car'"
                   class="h-5 w-5"
@@ -649,6 +689,10 @@ function bookVehicle(vehicleName: string) {
                   />
                 </svg>
               </span>
+              <span
+                class="whitespace-nowrap font-mono text-[10px] font-medium uppercase tracking-wide text-cream sm:text-xs"
+                >{{ t.label }}</span
+              >
             </div>
           </div>
         </div>
@@ -663,7 +707,7 @@ function bookVehicle(vehicleName: string) {
           <h2
             class="mt-4 max-w-3xl font-serif text-3xl font-semibold text-cream md:text-4xl lg:text-5xl"
           >
-            The details competitors advertise —
+            The details competitors advertise,
             <span class="italic text-gold">delivered on every ride.</span>
           </h2>
           <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -697,7 +741,7 @@ function bookVehicle(vehicleName: string) {
               </h2>
             </div>
             <p class="max-w-md text-sm leading-relaxed text-cream/85 md:text-right">
-              Choose by seats and journey type — luggage needs are confirmed with you separately.
+              Choose by seats and journey type. Luggage needs are confirmed with you separately.
             </p>
           </div>
 
@@ -745,7 +789,7 @@ function bookVehicle(vehicleName: string) {
                     class="shrink-0 rounded-md bg-gold px-3 py-2 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
                     @click="bookVehicle(car.name)"
                   >
-                    Book
+                    Quote
                   </button>
                 </div>
               </div>
@@ -881,7 +925,7 @@ function bookVehicle(vehicleName: string) {
             </h2>
             <p class="mt-4 text-sm leading-relaxed text-cream/90 md:text-base">
               Flight-aware timing, optional meet &amp; greet, and a confirmed chauffeur.
-              Luggage needs are discussed with you for each booking.
+              Luggage needs are discussed with you for each trip.
             </p>
             <ul class="mt-6 space-y-2 text-sm text-cream">
               <li class="flex gap-2"><span class="text-gold">✓</span> Named passenger pickup</li>
@@ -893,7 +937,7 @@ function bookVehicle(vehicleName: string) {
               class="mt-8 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
               @click="scrollTo('book')"
             >
-              Book airport transfer
+              Quote airport transfer
             </button>
           </div>
           <div class="rounded-2xl border border-navy-700 bg-navy-850 p-8">
@@ -941,14 +985,26 @@ function bookVehicle(vehicleName: string) {
               class="rounded-lg bg-gold px-6 py-3.5 text-sm font-semibold text-navy-900 transition hover:bg-gold-light"
               @click="scrollTo('book')"
             >
-              Start booking
+              Request a quote
             </button>
             <button
               type="button"
               class="rounded-lg border border-cream/35 px-6 py-3.5 text-sm font-semibold text-cream transition hover:border-gold hover:text-gold"
               @click="openWhatsAppChat"
             >
-              WhatsApp a quote
+              <span class="inline-flex items-center gap-2">
+                <svg
+                  class="h-4 w-4 shrink-0 text-whatsapp"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                  />
+                </svg>
+                WhatsApp a quote
+              </span>
             </button>
           </div>
           <ul class="mt-8 flex flex-wrap justify-center gap-2">
@@ -972,7 +1028,7 @@ function bookVehicle(vehicleName: string) {
           <h2
             class="mx-auto mt-4 max-w-2xl text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
           >
-            Book in four clear steps.
+            Four clear steps to your quotation.
           </h2>
           <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div
@@ -1054,15 +1110,16 @@ function bookVehicle(vehicleName: string) {
       <section id="book" class="scroll-mt-24 bg-navy-900 py-16 md:py-24">
         <div class="mx-auto max-w-3xl px-4">
           <p class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold">
-            Book your ride
+            Request a quotation
           </p>
           <h2
             class="mt-3 text-center font-serif text-3xl font-semibold text-cream md:text-4xl"
           >
-            Reserve <span class="italic text-gold">in seconds.</span>
+            Get your <span class="italic text-gold">quote in seconds.</span>
           </h2>
           <p class="mt-3 text-center text-sm text-cream/85">
-            Fill the form and we’ll receive your booking on WhatsApp instantly.
+            Fill in pickup, drop-off, date and passengers. We receive your request on WhatsApp and
+            reply with a quotation.
           </p>
 
           <form
@@ -1165,104 +1222,253 @@ function bookVehicle(vehicleName: string) {
               type="submit"
               class="w-full rounded-lg bg-gold py-3.5 text-sm font-semibold text-navy-900 shadow-lg shadow-[0_12px_32px_rgba(1,11,58,0.45)] transition hover:bg-gold-light"
             >
-              Send booking on WhatsApp
+              Send quote request on WhatsApp
             </button>
           </form>
         </div>
       </section>
 
-      <!-- Contact -->
-      <section id="contact" class="scroll-mt-24 bg-navy-950 pb-12 pt-8 md:pb-20">
-        <div class="mx-auto max-w-6xl px-4">
-          <div class="flex justify-center">
-            <span
-              class="rounded-full border border-gold bg-gold px-6 py-2 text-xs font-bold uppercase tracking-wider text-navy-900 shadow-md shadow-gold/25"
+      <!-- Contact CTA - Base44 layout, VSM navy design + our copy -->
+      <section id="contact" class="scroll-mt-24 border-t border-navy-700 bg-navy-900">
+        <div
+          class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-16 lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:py-20"
+        >
+          <div>
+            <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-gold">Contact us</p>
+            <h2
+              class="mt-4 max-w-xl font-serif text-3xl font-semibold leading-tight tracking-tight text-cream sm:text-4xl"
             >
-              Contact us
-            </span>
+              Your journey. Our priority.
+            </h2>
           </div>
-
-          <div class="mt-10 grid gap-4 sm:grid-cols-2">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-xs font-medium uppercase tracking-[0.14em] text-navy-900 transition-colors hover:bg-gold-light"
+              @click="scrollTo('book')"
+            >
+              Request a quote
+              <svg
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 5 7 7-7 7" />
+              </svg>
+            </button>
             <a
               :href="`https://wa.me/${WHATSAPP_PRIMARY}`"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex gap-4 rounded-xl border border-navy-700 bg-navy-850 p-6 transition hover:border-gold/30"
+              class="inline-flex items-center justify-center gap-2 rounded-full border border-cream/30 px-6 py-4 text-xs font-medium uppercase tracking-[0.14em] text-cream transition-colors hover:border-gold hover:text-gold"
             >
-              <span
-                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold"
+              <svg
+                class="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
               >
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
+              {{ WHATSAPP_DISPLAY }}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer - Base44 layout, VSM navy design + our details -->
+      <footer class="border-t border-navy-700 bg-navy-950 text-cream">
+        <div class="mx-auto max-w-7xl px-6 py-14 lg:px-10 lg:py-16">
+          <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+            <div>
+              <div class="flex items-center gap-3">
+                <img
+                  src="/logo-light.png"
+                  alt="VSM Tours"
+                  width="428"
+                  height="322"
+                  decoding="async"
+                  class="h-12 w-auto object-contain object-left"
+                />
+                <span class="font-serif text-base font-semibold tracking-tight text-cream"
+                  >VSM Tours</span
+                >
+              </div>
+              <p class="mt-5 max-w-sm text-sm leading-relaxed text-cream/60">
+                Private chauffeurs across Gauteng and beyond: airport transfers, corporate travel,
+                weddings and outstation trips. Request a quotation on WhatsApp.
+              </p>
+              <button
+                type="button"
+                class="mt-7 inline-flex items-center gap-2 rounded-full border border-cream/30 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-cream transition-colors hover:border-gold hover:text-gold"
+                @click="scrollTo('book')"
+              >
+                Request a quote
+                <svg
+                  class="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14" />
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    stroke-width="2"
+                    d="m12 5 7 7-7 7"
                   />
                 </svg>
-              </span>
-              <div>
-                <p class="font-semibold text-cream">{{ WHATSAPP_DISPLAY }}</p>
-                <p class="text-sm text-cream/80">WhatsApp · quotes & bookings</p>
-              </div>
-            </a>
-            <a
-              :href="`mailto:${EMAIL}`"
-              class="flex gap-4 rounded-xl border border-navy-700 bg-navy-850 p-6 transition hover:border-gold/30"
-            >
-              <span
-                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold"
-              >
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </span>
-              <div>
-                <p class="font-semibold text-cream">{{ EMAIL_DISPLAY }}</p>
-                <p class="text-sm text-cream/80">Corporate quotes & invoices</p>
-              </div>
-            </a>
+              </button>
+            </div>
+
+            <div>
+              <h3 class="font-mono text-[10px] uppercase tracking-[0.22em] text-gold">Navigate</h3>
+              <ul class="mt-5 space-y-3">
+                <li>
+                  <button
+                    type="button"
+                    class="text-sm text-cream/70 transition-colors hover:text-cream"
+                    @click="scrollTo('services')"
+                  >
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="text-sm text-cream/70 transition-colors hover:text-cream"
+                    @click="scrollTo('book')"
+                  >
+                    Quote
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="text-sm text-cream/70 transition-colors hover:text-cream"
+                    @click="scrollTo('fleet')"
+                  >
+                    Fleet
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="text-sm text-cream/70 transition-colors hover:text-cream"
+                    @click="scrollTo('contact')"
+                  >
+                    Contact
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-mono text-[10px] uppercase tracking-[0.22em] text-gold">Quotes</h3>
+              <ul class="mt-5 space-y-4 text-sm text-cream/70">
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="mt-0.5 h-4 w-4 shrink-0 text-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                    />
+                  </svg>
+                  <a
+                    :href="`https://wa.me/${WHATSAPP_PRIMARY}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="transition-colors hover:text-cream"
+                    >{{ WHATSAPP_DISPLAY }}</a
+                  >
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="mt-0.5 h-4 w-4 shrink-0 text-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <rect width="20" height="16" x="2" y="4" rx="2" stroke-width="2" />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                    />
+                  </svg>
+                  <a :href="`mailto:${EMAIL}`" class="transition-colors hover:text-cream">{{
+                    EMAIL_DISPLAY
+                  }}</a>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="mt-0.5 h-4 w-4 shrink-0 text-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                    />
+                    <circle cx="12" cy="10" r="3" stroke-width="2" />
+                  </svg>
+                  <span>Johannesburg, Gauteng</span>
+                </li>
+              </ul>
+              <p class="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-cream/45">
+                WhatsApp quotations 24/7
+              </p>
+            </div>
           </div>
 
           <div
-            class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-2 border-t border-navy-700 pt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-cream/80 md:text-xs"
+            class="mt-12 flex flex-col gap-3 border-t border-navy-700 pt-6 text-xs text-cream/50 sm:flex-row sm:items-center sm:justify-between"
           >
-            <span>Premium vehicles</span>
-            <span>Professional service</span>
-            <span>Unforgettable journeys</span>
+            <p>
+              © {{ new Date().getFullYear() }} VSM Tours Private Chauffeur Services. All rights
+              reserved. · Developed by
+              <span class="text-gold">Kaybee Debug Solutions</span>
+            </p>
+            <p class="font-mono uppercase tracking-[0.14em]">
+              OR Tambo · Lanseria · Johannesburg · Pretoria
+            </p>
           </div>
-          <p
-            class="mt-6 text-center text-[10px] font-semibold uppercase tracking-[0.35em] text-gold md:text-xs"
-          >
-            Your journey · Our priority
-          </p>
-          <footer class="mt-10 border-t border-navy-700 pt-6 text-center">
-            <p class="text-xs text-cream/85">
-              © {{ new Date().getFullYear() }} VSM Tours. All rights reserved.
-            </p>
-            <p class="mt-2 text-[11px] text-cream/75">
-              Developed by
-              <span class="font-medium text-gold">Kaybee Debug Solutions</span>
-            </p>
-          </footer>
         </div>
-      </section>
+      </footer>
     </main>
 
-    <!-- WhatsApp chat FAB — high contrast + above header -->
+    <!-- WhatsApp chat FAB - high contrast + above header -->
     <a
       :href="`https://wa.me/${WHATSAPP_PRIMARY}`"
       target="_blank"
       rel="noopener noreferrer"
-      class="fixed bottom-5 right-5 z-[100] flex h-16 w-16 items-center justify-center rounded-full bg-whatsapp text-cream shadow-[0_10px_36px_rgba(37,211,102,0.6),0_4px_16px_rgba(0,0,0,0.4)] ring-[3px] ring-white/90 ring-offset-2 ring-offset-[var(--background)] transition hover:scale-110 hover:shadow-[0_12px_44px_rgba(37,211,102,0.75)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:bottom-8 md:right-8 md:h-[4.5rem] md:w-[4.5rem]"
+      class="fixed bottom-5 right-5 z-[100] flex h-12 w-12 items-center justify-center rounded-full bg-whatsapp text-cream shadow-[0_8px_24px_rgba(37,211,102,0.45)] ring-2 ring-white/80 transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:bottom-7 md:right-7 md:h-14 md:w-14"
       aria-label="Chat on WhatsApp"
     >
-      <svg class="h-8 w-8 md:h-9 md:w-9" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg class="h-6 w-6 md:h-7 md:w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
           d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
         />
@@ -1272,7 +1478,7 @@ function bookVehicle(vehicleName: string) {
 </template>
 
 <style>
-/* Native selects / autofill — match Tailwind navy-950 + cream (design tokens) */
+/* Native selects / autofill - match Tailwind navy-950 + cream (design tokens) */
 select option,
 select optgroup {
   background-color: var(--navy-deep);

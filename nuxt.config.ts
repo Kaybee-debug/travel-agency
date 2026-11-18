@@ -1,9 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const SITE_URL = 'https://vsmtours.co.za'
 const SITE_NAME = 'VSM Tours'
-const SITE_TITLE = 'VSM Tours — Premium Fleet & Chauffeur | Gauteng'
+const SITE_TITLE = 'VSM Tours | Premium Fleet & Chauffeur | Gauteng'
 const SITE_DESCRIPTION =
-  'Private chauffeurs across Gauteng and beyond. Airport transfers (OR Tambo & Lanseria), corporate travel, weddings, outstation trips — book in minutes on WhatsApp.'
+  'Private chauffeurs across Gauteng and beyond. Airport transfers (OR Tambo & Lanseria), corporate travel, weddings, outstation trips. Request a quotation on WhatsApp.'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -49,6 +49,8 @@ export default defineNuxtConfig({
       link: [
         { rel: 'canonical', href: SITE_URL },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         {
           rel: 'preconnect',
@@ -57,7 +59,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Sora:wght@500;600;700&display=swap',
         },
       ],
     },
