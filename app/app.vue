@@ -3,6 +3,50 @@ const WHATSAPP_PRIMARY = '27605457885'
 const WHATSAPP_DISPLAY = '+27 60 545 7885'
 const EMAIL = 'vsmtours8@gmail.com'
 const EMAIL_DISPLAY = 'VSMTOURS8@GMAIL.COM'
+const SITE_URL = 'https://vsmtours.co.za'
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'LimousineService',
+        name: 'VSM Tours',
+        url: SITE_URL,
+        logo: `${SITE_URL}/logo.png`,
+        image: `${SITE_URL}/hero.png`,
+        description:
+          'Private chauffeurs across Gauteng and beyond. Airport transfers, corporate travel, weddings, and outstation trips.',
+        telephone: '+27605457885',
+        email: EMAIL,
+        areaServed: [
+          { '@type': 'City', name: 'Johannesburg' },
+          { '@type': 'City', name: 'Pretoria' },
+          { '@type': 'City', name: 'Sandton' },
+          { '@type': 'City', name: 'Midrand' },
+          { '@type': 'AdministrativeArea', name: 'Gauteng' },
+        ],
+        serviceType: [
+          'Airport transfer',
+          'Corporate travel',
+          'Wedding transport',
+          'Outstation trips',
+          'Hourly chauffeur',
+        ],
+        availableLanguage: ['English'],
+        sameAs: [`https://wa.me/${WHATSAPP_PRIMARY}`],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: '+27605457885',
+          contactType: 'customer service',
+          areaServed: 'ZA',
+          availableLanguage: 'English',
+        },
+      }),
+    },
+  ],
+})
 
 const mobileOpen = ref(false)
 
