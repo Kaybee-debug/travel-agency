@@ -5,16 +5,27 @@ const EMAIL = 'vsmtours8@gmail.com'
 const EMAIL_DISPLAY = 'VSMTOURS8@GMAIL.COM'
 const SITE_URL = 'https://vsmtours.co.za'
 
+const requestUrl = useRequestURL()
+const isVercelPreviewHost = requestUrl.host.includes('vercel.app')
+
 useHead({
+  meta: isVercelPreviewHost
+    ? [{ name: 'robots', content: 'noindex, nofollow' }]
+    : [],
   script: [
     {
       type: 'application/ld+json',
-      children: JSON.stringify({
+      innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'LimousineService',
         name: 'VSM Tours',
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.png`,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/logo.png`,
+          width: 612,
+          height: 408,
+        },
         image: `${SITE_URL}/hero.png`,
         description:
           'Private chauffeurs across Gauteng and beyond. Airport transfers, corporate travel, weddings, and outstation trips.',
